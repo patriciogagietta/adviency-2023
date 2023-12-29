@@ -1,11 +1,15 @@
 import { useState } from "react"
 
-export const FormGifts = ({ gifts, setGifts } ) => {
+export const FormGifts = ({ gifts, setGifts, modal, setModal } ) => {
     const [giftData, setGiftData] = useState({
         nombre: '',
         cantidad: 1,
         imagen: '',
     })
+
+    const handleCloseModal = () => {
+        setModal(false)
+    }
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -24,6 +28,7 @@ export const FormGifts = ({ gifts, setGifts } ) => {
 
         localStorage.setItem('gift', JSON.stringify(updatedGifts))
 
+        setModal(false)
         setGifts(updatedGifts)
         setGiftData({
             nombre: '',
@@ -33,36 +38,53 @@ export const FormGifts = ({ gifts, setGifts } ) => {
     }
 
     return (
-        <form onSubmit={handleSubmit} className="flex gap-4">
-            <input 
-                className="rounded p-2 placeholder-gray-400"
-                value={giftData.nombre}
-                type="text" 
-                placeholder="Nombre del regalo"
-                onChange={(e) => setGiftData({...giftData, nombre: e.target.value})}
-            />
+        <>
+            {modal && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+                    <div className="bg-white p-8 rounded-lg shadow-lg">
+                        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+                            <input
+                                className="rounded p-2 placeholder-gray-400 border-2 border-red-500"
+                                value={giftData.nombre}
+                                type="text"
+                                placeholder="Nombre del regalo"
+                                onChange={(e) => setGiftData({ ...giftData, nombre: e.target.value })}
+                            />
 
-            <input
-                className="rounded p-2 placeholder-gray-400"
-                value={giftData.imagen}
-                type="text"
-                placeholder="Url de la imagen"
-                onChange={(e) => setGiftData({ ...giftData, imagen: e.target.value })}
-            />
+                            <input
+                                className="rounded p-2 placeholder-gray-400 border-2 border-red-500"
+                                value={giftData.imagen}
+                                type="text"
+                                placeholder="Url de la imagen"
+                                onChange={(e) => setGiftData({ ...giftData, imagen: e.target.value })}
+                            />
 
-            <input
-                className="rounded p-2 placeholder-gray-400 w-20"
-                value={giftData.cantidad}
-                type="number"
-                min={1}
-                onChange={(e) => setGiftData({ ...giftData, cantidad: e.target.value })}
-            />
+                            <input
+                                className="rounded p-2 placeholder-gray-400 border-2 border-red-500"
+                                value={giftData.cantidad}
+                                type="number"
+                                min={1}
+                                placeholder="Cantidad"
+                                onChange={(e) => setGiftData({ ...giftData, cantidad: e.target.value })}
+                            />
+                            <div className="flex justify-between">                           
+                                <button
+                                    onClick={handleCloseModal}
+                                    type='submit'
+                                    className="rounded bg-gray-200 px-2 py-1 border-2 border-black">
+                                    Cerrar
+                                </button>
 
-            <button 
-                type='submit' 
-                className="rounded bg-red-500 px-6 py-1">
-                Agregar
-            </button>
-        </form>
+                                <button
+                                    type='submit'
+                                    className="rounded bg-red-500 px-2 py-1 border-2 border-black">
+                                    Agregar
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
+        </>
   )
 }

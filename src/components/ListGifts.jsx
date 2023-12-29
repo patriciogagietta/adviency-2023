@@ -1,6 +1,6 @@
 import { MdDelete } from "react-icons/md"
 
-export const ListGifts = ({ gifts, setGifts }) => {
+export const ListGifts = ({ gifts, setGifts, setModal }) => {
 
   const handleDeleteGift = (index) => {
     const updatedGifts = [...gifts]
@@ -15,11 +15,19 @@ export const ListGifts = ({ gifts, setGifts }) => {
     localStorage.removeItem('gift')
   }
 
+  const handleSeeModal = () => {
+    setModal(true)
+  }
+
   return (
     <div className="flex flex-col gap-3">
-      {gifts.length === 0 ? (
-        <p className="opacity-50 text-center">No hay regalos! Agregá algo!</p>
-        ) : (
+      <button
+        onClick={handleSeeModal}
+        className="rounded bg-red-500 px-6 py-1.5 w-full border-2 border-black">
+        Agregar Regalo
+      </button>
+
+      {gifts.length > 0 ? (
         <div className="flex flex-col gap-6">
           <ul className="flex flex-col gap-4">
             {gifts.map((gift, index) => (
@@ -35,12 +43,14 @@ export const ListGifts = ({ gifts, setGifts }) => {
             ))}
           </ul>
 
-          <button 
-            onClick={handleDeleteAllGifts} 
-            className="rounded bg-red-500 px-6 py-1 w-full">
-              Borrar Todo
+          <button
+            onClick={handleDeleteAllGifts}
+            className="rounded bg-red-500 px-6 py-1.5 w-full">
+            Borrar Todo
           </button>
         </div>
+        ) : (
+          <p className="opacity-50 text-center">No hay regalos! Agregá algo!</p>
       )}
     </div>
   )
