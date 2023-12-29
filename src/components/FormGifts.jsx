@@ -11,14 +11,18 @@ export const FormGifts = ({ gifts, setGifts } ) => {
     }
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="flex gap-10">
             <input 
                 value={newGift}
                 type="text" 
                 placeholder="Nombre del regalo"
                 onChange={(e) => setNewGift(e.target.value)}
             />
-            <button type='submit'>Agregar</button>
+            <button 
+            type='submit' 
+            className="rounded bg-red-500 px-6 py-1">
+                Agregar
+            </button>
         </form>
   )
 }
