@@ -5,6 +5,7 @@ export const FormGifts = ({ gifts, setGifts, modal, setModal } ) => {
         nombre: '',
         cantidad: 1,
         imagen: '',
+        destinatario: '',
     })
 
     const handleCloseModal = () => {
@@ -22,6 +23,7 @@ export const FormGifts = ({ gifts, setGifts, modal, setModal } ) => {
             nombre: giftData.nombre,
             cantidad: giftData.cantidad,
             imagen: giftData.imagen,
+            destinatario: giftData.destinatario,
         }
 
         const updatedGifts = [...gifts, newGiftObjetc];
@@ -34,6 +36,7 @@ export const FormGifts = ({ gifts, setGifts, modal, setModal } ) => {
             nombre: '',
             cantidad: 1,
             imagen: '',
+            destinatario: '',
         })
     }
 
@@ -61,12 +64,21 @@ export const FormGifts = ({ gifts, setGifts, modal, setModal } ) => {
 
                             <input
                                 className="rounded p-2 placeholder-gray-400 border-2 border-red-500"
+                                value={giftData.destinatario}
+                                type="text"
+                                placeholder="Destinatario"
+                                onChange={(e) => setGiftData({ ...giftData, destinatario: e.target.value })}
+                            />
+
+                            <input
+                                className="rounded p-2 placeholder-gray-400 border-2 border-red-500"
                                 value={giftData.cantidad}
                                 type="number"
                                 min={1}
                                 placeholder="Cantidad"
                                 onChange={(e) => setGiftData({ ...giftData, cantidad: e.target.value })}
                             />
+
                             <div className="flex justify-between">                           
                                 <button
                                     onClick={handleCloseModal}

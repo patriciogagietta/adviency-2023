@@ -32,10 +32,15 @@ export const ListGifts = ({ gifts, setGifts, setModal }) => {
           <ul className="flex flex-col gap-4">
             {gifts.map((gift, index) => (
               <li key={index} className="flex justify-between items-center">
+
                 <div className="flex gap-4 items-center">
                   <img className="size-12 rounded" src={gift.imagen} alt={gift.nombre} />
-                  <p>{gift.nombre} (x{gift.cantidad})</p>
+                  <div>
+                    <p>{gift.nombre} (x{gift.cantidad})</p>
+                    <p className="opacity-60">{gift.destinatario}</p>
+                  </div>
                 </div>
+
                 <button onClick={() => handleDeleteGift(index)} className="text-lg">
                   <MdDelete />
                 </button>
