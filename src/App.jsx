@@ -6,7 +6,8 @@ import './App.css'
 
 function App() {
 
-  const [gifts, setGifts] = useState([])
+  const storedGift = JSON.parse(window.localStorage.getItem('gift')) || []
+  const [gifts, setGifts] = useState(storedGift)
 
   return (
     <>

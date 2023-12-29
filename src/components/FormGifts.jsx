@@ -16,7 +16,11 @@ export const FormGifts = ({ gifts, setGifts } ) => {
             cantidad: giftData.cantidad
         }
 
-        setGifts([...gifts, newGiftObjetc])
+        const updatedGifts = [...gifts, newGiftObjetc];
+
+        localStorage.setItem('gift', JSON.stringify(updatedGifts))
+
+        setGifts(updatedGifts)
         setGiftData({
             nombre: '',
             cantidad: 1

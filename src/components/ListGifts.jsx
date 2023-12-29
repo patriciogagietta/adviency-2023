@@ -4,13 +4,15 @@ export const ListGifts = ({ gifts, setGifts }) => {
 
   const handleDeleteGift = (index) => {
     const updatedGifts = [...gifts]
-
     updatedGifts.splice(index, 1)
+    
     setGifts(updatedGifts)
+    localStorage.setItem('gift', JSON.stringify(updatedGifts))
   }
 
   const handleDeleteAllGifts = () => {
     setGifts([])
+    localStorage.removeItem('gift')
   }
 
   return (
