@@ -13,6 +13,7 @@ export const FormGifts = ({ gifts, setGifts } ) => {
     return (
         <form onSubmit={handleSubmit} className="flex gap-10">
             <input 
+                className="rounded p-2 placeholder-gray-400"
                 value={newGift}
                 type="text" 
                 placeholder="Nombre del regalo"

@@ -9,7 +9,12 @@ export const ListGifts = ({ gifts, setGifts }) => {
     setGifts(updatedGifts)
   }
 
+  const handleDeleteAllGifts = () => {
+    setGifts([])
+  }
+
   return (
+  <div className="flex flex-col gap-3">
     <ul>
       {gifts.map((gift, index) => (
           <li key={index} className="flex justify-between items-center">
@@ -20,7 +25,16 @@ export const ListGifts = ({ gifts, setGifts }) => {
               <MdDelete />
             </button>
           </li>
-        ))}
+      ))}
     </ul>
+
+    <div className="flex items-center justify-center">
+      <button 
+      onClick={handleDeleteAllGifts}
+      className="rounded bg-red-500 px-6 py-1 w-full">
+        Borrar Todo
+      </button>
+    </div>
+  </div>
   )
 }
