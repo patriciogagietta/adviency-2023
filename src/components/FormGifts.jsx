@@ -6,6 +6,8 @@ export const FormGifts = ({ gifts, setGifts } ) => {
     const handleSubmit = (e) => {
         e.preventDefault()
 
+        if (newGift.trim() === '' || gifts.some((gift) => gift.toLowerCase() === newGift.toLocaleLowerCase())) return
+
         setGifts([...gifts, newGift])
         setNewGift('')
     }
