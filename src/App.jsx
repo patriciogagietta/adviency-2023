@@ -1,16 +1,19 @@
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { ListGifts } from './components/ListGifts'
 import { FormGifts } from './components/FormGifts'
 import './App.css'
 
 function App() {
-
-  const storedGift = JSON.parse(window.localStorage.getItem('gift')) || []
-  const [gifts, setGifts] = useState(storedGift)
+  const [gifts, setGifts] = useState([])
   const [modal, setModal] = useState(false)
   const [giftEdit, setGiftEdit] = useState(null)
   const [isEdit, setIsEdit] = useState(false)
+
+  useEffect(() => {
+    const storedGift = JSON.parse(window.localStorage.getItem('gift')) || []
+    setGifts(storedGift)
+  }, [])
 
   return (
     <>
