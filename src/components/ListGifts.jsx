@@ -26,6 +26,8 @@ export const ListGifts = ({ gifts, setGifts, setModal, setGiftEdit, setIsEdit })
     setModal(true)
   }
 
+  const totalPrice = gifts.reduce((total, gift) => total + (gift.precio * gift.cantidad), 0)
+
   return (
     <div className="flex flex-col gap-3">
       <button
@@ -36,12 +38,12 @@ export const ListGifts = ({ gifts, setGifts, setModal, setGiftEdit, setIsEdit })
 
       {gifts.length > 0 ? (
         <div className="flex flex-col gap-6">
-          <ul className="flex flex-col gap-4 border-b-2 pb-6 border-y-rose-500">
+          <ul className="flex flex-col gap-4 border-b-2 pb-10 mt-3 border-black">
             {gifts.map((gift, index) => (
               <li key={index} className="flex justify-between items-center gap-20">
 
-                <div className="flex gap-4">
-                  <div className="flex gap-5">
+                <div className="flex gap-5">
+                  <div className="flex gap-4">
                     <img className="size-12 rounded" src={gift.imagen} alt={gift.nombre} />
                     <div>
                       <p>{gift.nombre} (x{gift.cantidad})</p>
@@ -49,7 +51,7 @@ export const ListGifts = ({ gifts, setGifts, setModal, setGiftEdit, setIsEdit })
                     </div>
                   </div>
                   <div>
-                    <p>{Number(gift.precio * gift.cantidad).toLocaleString('es-AR', {style: 'currency', currency: 'ARS'})}</p>
+                    <p className="font-bold">{Number(gift.precio * gift.cantidad).toLocaleString('es-AR', {style: 'currency', currency: 'ARS'})}</p>
                   </div>
                 </div>
 
@@ -66,6 +68,8 @@ export const ListGifts = ({ gifts, setGifts, setModal, setGiftEdit, setIsEdit })
               </li>
             ))}
           </ul>
+
+          <p className="text-center font-bold">Total: {Number(totalPrice).toLocaleString('es-AR', { style: 'currency', currency: 'ARS' })}</p>
 
           <button
             onClick={handleDeleteAllGifts}
