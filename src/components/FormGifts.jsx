@@ -6,6 +6,7 @@ export const FormGifts = ({ gifts, setGifts, modal, setModal, giftEdit, setGiftE
         cantidad: 1,
         imagen: '',
         destinatario: '',
+        precio: 0,
     })
 
     const REGALOS_ALAZAR = [
@@ -28,6 +29,7 @@ export const FormGifts = ({ gifts, setGifts, modal, setModal, giftEdit, setGiftE
                 cantidad: giftEdit.cantidad,
                 imagen: giftEdit.imagen,
                 destinatario: giftEdit.destinatario,
+                precio: giftEdit.precio
             })
         }
     }, [giftEdit])
@@ -41,6 +43,7 @@ export const FormGifts = ({ gifts, setGifts, modal, setModal, giftEdit, setGiftE
             cantidad: 1,
             imagen: '',
             destinatario: '',
+            precio: 0
         });
     }
 
@@ -59,12 +62,8 @@ export const FormGifts = ({ gifts, setGifts, modal, setModal, giftEdit, setGiftE
         e.preventDefault()
 
         if (isEdit === false){
-            if (giftData.nombre.trim() === ''
-            || gifts.some((gift) => gift.nombre.toLowerCase() === giftData.nombre.toLocaleLowerCase())
-            || giftData.imagen.trim() === '') return
+            if (gifts.some((gift) => gift.nombre.toLowerCase() === giftData.nombre.toLocaleLowerCase())) return
         }
-
-        if (giftData.nombre.trim() === '' || giftData.imagen.trim() === '') return   
 
         let updatedGifts
         if (giftEdit) {
@@ -95,6 +94,7 @@ export const FormGifts = ({ gifts, setGifts, modal, setModal, giftEdit, setGiftE
             cantidad: 1,
             imagen: '',
             destinatario: '',
+            precio: 0,
         })
     }
 
@@ -108,6 +108,7 @@ export const FormGifts = ({ gifts, setGifts, modal, setModal, giftEdit, setGiftE
                                 <input
                                     className="rounded p-2 placeholder-gray-400 border-2 border-red-500"
                                     value={giftData.nombre}
+                                    required
                                     type="text"
                                     placeholder="Nombre del regalo"
                                     onChange={(e) => setGiftData({ ...giftData, nombre: e.target.value })}
@@ -124,6 +125,7 @@ export const FormGifts = ({ gifts, setGifts, modal, setModal, giftEdit, setGiftE
                             <input
                                 className="rounded p-2 placeholder-gray-400 border-2 border-red-500"
                                 value={giftData.imagen}
+                                required
                                 type="text"
                                 placeholder="Url de la imagen"
                                 onChange={(e) => setGiftData({ ...giftData, imagen: e.target.value })}
@@ -132,6 +134,7 @@ export const FormGifts = ({ gifts, setGifts, modal, setModal, giftEdit, setGiftE
                             <input
                                 className="rounded p-2 placeholder-gray-400 border-2 border-red-500"
                                 value={giftData.destinatario}
+                                required
                                 type="text"
                                 placeholder="Destinatario"
                                 onChange={(e) => setGiftData({ ...giftData, destinatario: e.target.value })}
@@ -139,7 +142,17 @@ export const FormGifts = ({ gifts, setGifts, modal, setModal, giftEdit, setGiftE
 
                             <input
                                 className="rounded p-2 placeholder-gray-400 border-2 border-red-500"
+                                value={giftData.precio}
+                                required
+                                type="number"
+                                placeholder="Precio"    
+                                onChange={(e) => setGiftData({ ...giftData, precio: e.target.value })}
+                            />
+
+                            <input
+                                className="rounded p-2 placeholder-gray-400 border-2 border-red-500"
                                 value={giftData.cantidad}
+                                required
                                 type="number"
                                 min={1}
                                 placeholder="Cantidad"
