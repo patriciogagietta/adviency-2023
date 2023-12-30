@@ -8,6 +8,19 @@ export const FormGifts = ({ gifts, setGifts, modal, setModal, giftEdit, setGiftE
         destinatario: '',
     })
 
+    const REGALOS_ALAZAR = [
+        "Botines",
+        "CSGO",
+        "Peluche",
+        "Perfume",
+        "Reloj",
+        "Libro",
+        "Vino",
+        "Camara",
+        "Ajedrez",
+        "Damas"
+    ];
+
     useEffect(() => {
         if (giftEdit){
             setGiftData({
@@ -31,6 +44,17 @@ export const FormGifts = ({ gifts, setGifts, modal, setModal, giftEdit, setGiftE
         });
     }
 
+    const handleGiftAlAzar = () => {
+        const index = Math.floor(Math.random() * REGALOS_ALAZAR.length)
+        const giftAlAzar = REGALOS_ALAZAR[index]
+
+        const giftExists = gifts.some((gift) => gift.nombre.toLowerCase() === giftAlAzar.toLowerCase());
+
+        if (!giftExists){
+            setGiftData(prevGiftData => ({ ...prevGiftData, nombre: giftAlAzar }))
+        }
+    }
+
     const handleSubmit = (e) => {
         e.preventDefault()
 
@@ -40,16 +64,26 @@ export const FormGifts = ({ gifts, setGifts, modal, setModal, giftEdit, setGiftE
             || giftData.imagen.trim() === '') return
         }
 
-        if (giftData.nombre.trim() === ''
-        || giftData.imagen.trim() === '') return   
+        if (giftData.nombre.trim() === '' || giftData.imagen.trim() === '') return   
 
-        const updatedGifts = giftEdit
-        ? gifts.map(gift =>
-            (gift.nombre === giftEdit.nombre)
-            ? { ...giftData }
-            : gift
-        )
-        : [...gifts, { ...giftData }]
+        let updatedGifts
+        if (giftEdit) {
+            const existingGift = gifts.find(
+                (gift) =>
+                    gift.nombre.toLowerCase() === giftData.nombre.toLowerCase() &&
+                    gift.nombre.toLowerCase() !== giftEdit.nombre.toLowerCase()
+            )
+
+            if (existingGift) {
+                return
+            }
+
+            updatedGifts = gifts.map((gift) =>
+                gift.nombre === giftEdit.nombre ? { ...giftData } : gift
+            )
+        } else {
+            updatedGifts = [...gifts, { ...giftData }]
+        }
 
         localStorage.setItem('gift', JSON.stringify(updatedGifts))
 
@@ -70,13 +104,22 @@ export const FormGifts = ({ gifts, setGifts, modal, setModal, giftEdit, setGiftE
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
                     <div className="bg-white p-8 rounded-lg shadow-lg">
                         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-                            <input
-                                className="rounded p-2 placeholder-gray-400 border-2 border-red-500"
-                                value={giftData.nombre}
-                                type="text"
-                                placeholder="Nombre del regalo"
-                                onChange={(e) => setGiftData({ ...giftData, nombre: e.target.value })}
-                            />
+                            <div className="flex gap-4">
+                                <input
+                                    className="rounded p-2 placeholder-gray-400 border-2 border-red-500"
+                                    value={giftData.nombre}
+                                    type="text"
+                                    placeholder="Nombre del regalo"
+                                    onChange={(e) => setGiftData({ ...giftData, nombre: e.target.value })}
+                                />
+
+                                <button 
+                                    type='button' 
+                                    onClick={handleGiftAlAzar} 
+                                    className="rounded bg-red-500/50 px-2 py-1 border-2 border-black">
+                                    Sorprendeme!
+                                </button>
+                            </div>
 
                             <input
                                 className="rounded p-2 placeholder-gray-400 border-2 border-red-500"
