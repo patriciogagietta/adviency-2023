@@ -1,6 +1,6 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
-export const FormGifts = ({ gifts, setGifts, modal, setModal } ) => {
+export const FormGifts = ({ gifts, setGifts, modal, setModal, giftEdit, setGiftEdit, setIsEdit, isEdit } ) => {
     const [giftData, setGiftData] = useState({
         nombre: '',
         cantidad: 1,
@@ -8,29 +8,53 @@ export const FormGifts = ({ gifts, setGifts, modal, setModal } ) => {
         destinatario: '',
     })
 
+    useEffect(() => {
+        if (giftEdit){
+            setGiftData({
+                nombre: giftEdit.nombre,
+                cantidad: giftEdit.cantidad,
+                imagen: giftEdit.imagen,
+                destinatario: giftEdit.destinatario,
+            })
+        }
+    }, [giftEdit])
+
     const handleCloseModal = () => {
+        setGiftEdit(null)
         setModal(false)
+        setIsEdit(false)
+        setGiftData({
+            nombre: '',
+            cantidad: 1,
+            imagen: '',
+            destinatario: '',
+        });
     }
 
     const handleSubmit = (e) => {
         e.preventDefault()
 
-        if (giftData.nombre.trim() === '' 
-        || gifts.some((gift) => gift.nombre.toLowerCase() === giftData.nombre.toLocaleLowerCase())
-        || giftData.imagen.trim() === '') return
-
-        const newGiftObjetc = {
-            nombre: giftData.nombre,
-            cantidad: giftData.cantidad,
-            imagen: giftData.imagen,
-            destinatario: giftData.destinatario,
+        if (isEdit === false){
+            if (giftData.nombre.trim() === ''
+            || gifts.some((gift) => gift.nombre.toLowerCase() === giftData.nombre.toLocaleLowerCase())
+            || giftData.imagen.trim() === '') return
         }
 
-        const updatedGifts = [...gifts, newGiftObjetc];
+        if (giftData.nombre.trim() === ''
+        || giftData.imagen.trim() === '') return   
+
+        const updatedGifts = giftEdit
+        ? gifts.map(gift =>
+            (gift.nombre === giftEdit.nombre)
+            ? { ...giftData }
+            : gift
+        )
+        : [...gifts, { ...giftData }]
 
         localStorage.setItem('gift', JSON.stringify(updatedGifts))
 
         setModal(false)
+        setGiftEdit(null)
         setGifts(updatedGifts)
         setGiftData({
             nombre: '',
@@ -82,7 +106,7 @@ export const FormGifts = ({ gifts, setGifts, modal, setModal } ) => {
                             <div className="flex justify-between">                           
                                 <button
                                     onClick={handleCloseModal}
-                                    type='submit'
+                                    type='button'
                                     className="rounded bg-gray-200 px-2 py-1 border-2 border-black">
                                     Cerrar
                                 </button>
@@ -90,7 +114,7 @@ export const FormGifts = ({ gifts, setGifts, modal, setModal } ) => {
                                 <button
                                     type='submit'
                                     className="rounded bg-red-500 px-2 py-1 border-2 border-black">
-                                    Agregar
+                                    {giftData.nombre ? 'Confirmar' : 'Agregar'}
                                 </button>
                             </div>
                         </form>

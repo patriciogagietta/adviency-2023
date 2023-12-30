@@ -1,6 +1,6 @@
-import { MdDelete } from "react-icons/md"
+import { MdDelete, MdEditSquare } from "react-icons/md"
 
-export const ListGifts = ({ gifts, setGifts, setModal }) => {
+export const ListGifts = ({ gifts, setGifts, setModal, setGiftEdit, setIsEdit }) => {
 
   const handleDeleteGift = (index) => {
     const updatedGifts = [...gifts]
@@ -16,6 +16,13 @@ export const ListGifts = ({ gifts, setGifts, setModal }) => {
   }
 
   const handleSeeModal = () => {
+    setModal(true)
+  }
+
+  const handleEditGift = (nombre) => {
+    const giftEditt = gifts.find((gift) => gift.nombre === nombre)
+    setGiftEdit(giftEditt)
+    setIsEdit(true)
     setModal(true)
   }
 
@@ -41,6 +48,10 @@ export const ListGifts = ({ gifts, setGifts, setModal }) => {
                   </div>
                 </div>
 
+                <button onClick={() => handleEditGift(gift.nombre)} className="text-lg">
+                  <MdEditSquare />
+                </button>
+
                 <button onClick={() => handleDeleteGift(index)} className="text-lg">
                   <MdDelete />
                 </button>
@@ -50,7 +61,7 @@ export const ListGifts = ({ gifts, setGifts, setModal }) => {
 
           <button
             onClick={handleDeleteAllGifts}
-            className="rounded bg-red-500 px-6 py-1.5 w-full">
+            className="rounded bg-red-500 px-6 py-1.5 w-full border-2 border-black">
             Borrar Todo
           </button>
         </div>
