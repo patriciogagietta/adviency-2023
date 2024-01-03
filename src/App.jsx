@@ -1,8 +1,9 @@
-
-import { useEffect, useState } from 'react'
 import { ListGifts } from './components/ListGifts'
 import { FormGifts } from './components/FormGifts'
 import { ModalComprar } from './components/ModalComprar'
+import { CoposDeNieve } from './components/CoposDeNieve'
+
+import { useEffect, useState } from 'react'
 import './App.css'
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
 
   return (
     <>
+      <CoposDeNieve />
       <div className='h-screen flex flex-col justify-center items-center'>
         <div className='bg-slate-300 p-20 rounded flex flex-col gap-6 shadow-2xl'>
           <FormGifts gifts={gifts} setGifts={setGifts} modal={modal} setModal={setModal} giftEdit={giftEdit} setGiftEdit={setGiftEdit} setIsEdit={setIsEdit} isEdit={isEdit}/>
