@@ -1,6 +1,10 @@
+import { useState, useEffect } from "react";
+
 import { MdDelete, MdEditSquare } from "react-icons/md"
+import { GiSoundOn, GiSoundOff } from "react-icons/gi";
 
 export const ListGifts = ({ gifts, setGifts, setModal, setGiftEdit, setIsEdit, setModalComprar }) => {
+  const [sound, setSound] = useState(false)
 
   const handleDeleteGift = (index) => {
     const updatedGifts = [...gifts]
@@ -30,10 +34,39 @@ export const ListGifts = ({ gifts, setGifts, setModal, setGiftEdit, setIsEdit, s
     setModalComprar(true)
   }
 
+  const handleSound = () => {
+    setSound(!sound)
+  }
+
+  useEffect(() => {
+    if (sound) {
+      const audio = document.getElementById("audio");
+
+      if (audio) {
+        audio.volume = 0.10
+      }
+    }
+  }, [sound]);
+ 
   const totalPrice = gifts.reduce((total, gift) => total + (gift.precio * gift.cantidad), 0)
 
   return (
     <div className="flex flex-col gap-3">
+      <div className="flex justify-between items-center">
+        <h1 className='text-4xl font-bold'>Regalos: </h1>
+        {sound ? (
+          <div>
+            <GiSoundOn onClick={handleSound} className="text-4xl cursor-pointer"/>
+            <audio id="audio" autoPlay loop>
+              <source src="navidad.mp3" type="audio/mpeg" />
+              Tu navegador no admite el elemento de audio.
+            </audio>
+          </div>
+        ) : (
+          <GiSoundOff onClick={handleSound} className="text-4xl cursor-pointer" />
+        )}
+      </div>
+
       <button
         onClick={handleSeeModal}
         className="rounded bg-red-500 px-6 py-1.5 w-full border-2 border-black">
